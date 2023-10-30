@@ -7,8 +7,7 @@ async function readImage() {
         const imgData: number[][] = [];
         
         img.scan(0, 0, img.bitmap.width, img.bitmap.height, (x, y, idx) => {
-            const pixelValue = Jimp.intToRGBA(img.getPixelColor(x, y)).r; // Assuming grayscale, so using the red channel.
-            
+            const pixelValue = Jimp.intToRGBA(img.getPixelColor(x, y)).b; // either red or blue or green, they are all the same in grayscale
             if (!imgData[y]) {
                 imgData[y] = [];
             }
