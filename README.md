@@ -1,6 +1,6 @@
-## Image histogram equalizer
+# Image histogram equalizer
 
-# Instructions to run
+## Instructions to run
 - Download and install Node.js: https://nodejs.org/en/download
 - Download and install TypeScript: https://www.typescriptlang.org/download
 - Run `npx tsc` in the root directory, this will tanspile the typescript code to js
