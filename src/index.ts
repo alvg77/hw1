@@ -2,17 +2,18 @@ import Jimp from 'jimp';
 
 async function readImage() {
     try {
-        const img = await Jimp.read('in.jpg');
-        img.grayscale();
-        const imgData: number[][] = [];
+        const img = await Jimp.read('in.jpg'); // read image
+        img.grayscale(); // convert to grayscale
+        const imgData: number[][] = []; // 2D array to store the image data
         
+        // store the data from the image into the 2D array
         img.scan(0, 0, img.bitmap.width, img.bitmap.height, (x, y, idx) => {
-            const pixelValue = Jimp.intToRGBA(img.getPixelColor(x, y)).b; // either red or blue or green, they are all the same in grayscale
+            const pixel = Jimp.intToRGBA(img.getPixelColor(x, y)).b; // either red or blue or green, they are all the same in grayscale
             if (!imgData[y]) {
                 imgData[y] = [];
             }
             
-            imgData[y][x] = pixelValue;
+            imgData[y][x] = pixel;
         });
         
         return imgData;
@@ -22,7 +23,9 @@ async function readImage() {
 }
 
 function getHistogram(img: number[][]): number[] {
+    // initialize an array of 256 elements with 0, as there are 256 different values for a pixel, as it is 8-bit
     const hist: number[] = new Array(256).fill(0);
+    // iterate and count the number of pixels with the same value
     for (const row of img) {
         for (const pixel of row) {
             hist[pixel]++;
@@ -44,6 +47,7 @@ function equalization(img: number[][], hist: number[]) {
 
     var r_ver: number = 0;
 
+    // calculate the new values for each pixel
     for (let i = c_0; i <= c_max; i++) {
         let l_c: number = r_ver;
         h_sum += hist[i];
@@ -56,6 +60,7 @@ function equalization(img: number[][], hist: number[]) {
         c_n[i] = Math.random() * (r_c - l_c) + l_c;
     }
 
+    // change the values of the pixels in the image
     for (let i = 0; i < img.length; i++) {
         for (let j = 0; j < img[0].length; j++) {
             img[i][j] = c_n[img[i][j]];
@@ -66,11 +71,16 @@ function equalization(img: number[][], hist: number[]) {
 }
 
 async function writeImage(img: number[][]) {
+    // create a new image with the same dimensions as the original one
     const image = new Jimp(img[0].length, img.length);
+    // iterate through the pixels and set the new values
     image.scan(0, 0, img[0].length, img.length, (x, y, idx) => {
         const pixelValue = img[y][x];
+        // set the pixel value for each color channel and the alpha channel
         image.setPixelColor(Jimp.rgbaToInt(pixelValue, pixelValue, pixelValue, 255), x, y);
     });
+
+    // save the image
     image.write('out.jpg', (err) => {
         if (!err) {
             console.log('Equalized image saved as out.jpg');
