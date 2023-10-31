@@ -16,7 +16,7 @@
     "jimp": "^0.22.10"
   },
   "devDependencies": {
-    "@types/node": "^20.8.9",
+    "@types/node": "^20.8.10",
     "typescript": "^5.2.2"
   }
 }

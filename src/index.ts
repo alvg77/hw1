@@ -1,8 +1,24 @@
 import Jimp from 'jimp';
+import * as readline from 'readline';
 
-async function readImage() {
+// get user input from the console
+async function getUserInput(prompt: string): Promise<string> {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    return new Promise<string>((resolve) => {
+        rl.question(prompt, (input) => {
+            rl.close();
+            resolve(input != '' ? input : 'in.jpg');
+        });
+    });
+}
+
+async function readImage(imgFile: string) {
     try {
-        const img = await Jimp.read('catJedi.jpg'); // read image
+        const img = await Jimp.read(imgFile);
         const imgData: number[][][] = []; // 3D array to store the image data for each pixel and color channel
         
         // store the data from the image into the 3D array
@@ -104,9 +120,10 @@ function combineColorChannels(red: number[][], green: number[][], blue: number[]
     return red.map((row, i) => row.map((pixel, j) => [pixel, green[i][j], blue[i][j]]));
 }
 
-async function main() {
-    console.log('Starting...');
-    const img = await readImage();
+async function main() {    
+    const imgFile = await getUserInput('Enter the image file name (default is "in.jpg"): ');
+
+    const img = await readImage(imgFile);
 
     const redChannel = getColorChannel(img, 0);
     const greenChannel = getColorChannel(img, 1);
