@@ -10,7 +10,7 @@
 - An image file called **out.jpg** should appear
 
 ## Before equalization:
-<img src="" alt="">
+<img src="https://github.com/alvg77/image-histogram-equalization/blob/main/in.jpg" alt="Input image">
 
 ## After equalization:
-<img src="" alt="">
+<img src="https://github.com/alvg77/image-histogram-equalization/blob/main/out.jpg" alt="Output image">
