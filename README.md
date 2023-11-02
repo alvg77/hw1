@@ -8,3 +8,9 @@
 - Run `npm run build` in the root directory, this will build the project and tanspile the typescript code to js
 - Run `npm run start` to run the project
 - An image file called **out.jpg** should appear
+
+## Before equalization:
+<img src="" alt="">
+
+## After equalization:
+<img src="" alt="">
